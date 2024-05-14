@@ -67,6 +67,20 @@ Requirements:
         }
     }
 
+    //This function will hide an HTML element on the page
+    //Just pass it the id of the element you want to hide
+    function hideElement(someSelector) {
+        let el = document.querySelector(someSelector);
+        el.style.display = "none";
+    }
+
+    //This function will show an HTML element on the page
+    //Just pass it the id of the element you want to show
+    function showElement(someSelector) {
+        let el = document.querySelector(someSelector);
+        el.style.display = "block";
+    }
+
     ```
 
     ```js
