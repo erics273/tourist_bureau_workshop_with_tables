@@ -102,8 +102,109 @@ let activities = [
 ];
 
 window.onload = function () {
+    
 
     initCategoriesDropdown();
+    initActivitesDropdown();
+
+    let catDropdown = document.querySelector("#categoriesSelect");
+    let activityDropdown = document.querySelector("#activitiesSelect");
+
+    catDropdown.addEventListener("change", initActivitesDropdown);
+
+    activityDropdown.addEventListener("change", displayActivity);
+
+}
+
+function displayActivity(event){
+
+    let activityDropdown = document.querySelector("#activitiesSelect");
+
+    let selected = activityDropdown.value;
+
+    let selectedActivity;
+    for(let i=0; i < activities.length; i++){
+
+        if(activities[i].id === selected){
+            selectedActivity = activities[i]
+            break;
+        }
+    }
+
+    displayActivityDetails(selectedActivity);
+
+}
+
+function displayActivityDetails(activity){
+    let activityDetailsDiv = document.querySelector("#activityDetails");
+
+    let message = "";
+    if(activity === undefined){
+        message = `Please select an activity`;
+    }else{
+        message = `
+            <div>${activity.id}</div>
+            <div>${activity.category}</div>
+            <div>${activity.name}</div>
+            <div>${activity.description}</div>
+            <div>${activity.location}</div>
+            <div>${activity.price}</div>
+        `
+    }
+
+    
+
+    activityDetailsDiv.innerHTML = message;
+}
+
+function initActivitesDropdown() {
+
+    //get the dropdown from the HTML document and assign it to a variable
+    let theDropdown = document.querySelector("#activitiesSelect");
+
+    //get a hold of the details div so we can empty it when we change the categories dropdown
+    let activityDetailsDiv = document.querySelector("#activityDetails");
+    activityDetailsDiv.innerHTML = "";
+
+    //empty the dropown before repopulating with activities
+    theDropdown.length = 0;
+
+    //get the catDropdown so we can check which is selected
+    let selectedCategory = document.querySelector("#categoriesSelect").value;
+
+    //create an HTML option element to serve as the defualt option for our categories select
+    let defaultOption = document.createElement("option");
+
+    //set the textContent of the option to be "Select an Activity"
+    defaultOption.textContent = "Select an Activity";
+
+    //set the value of the option to an empty string ("")
+    defaultOption.value = "";
+
+    //add this default option to the select
+    theDropdown.appendChild(defaultOption);
+
+    let matchingActivities = getActivitiesInCategory(activities, selectedCategory)
+
+    //get the total number of categories we have for use in the loop
+    let numberOfActivities = matchingActivities.length;
+
+    //lets start looping over the activites
+    for (let i = 0; i < numberOfActivities; i++) {
+
+        //lets create a new option using document.createElement
+        let newOption = document.createElement("option");
+
+        //set the textContent for our new option, what the user sees
+        newOption.textContent = matchingActivities[i].name;
+
+        //set the value for the option
+        newOption.value = matchingActivities[i].id;
+
+        //add this option to the dropdown using appendChild
+        theDropdown.appendChild(newOption);
+
+    }
 
 }
 
@@ -115,7 +216,7 @@ function initCategoriesDropdown() {
     //create an HTML option element to serve as the defualt option for our categories select
     let defaultOption = document.createElement("option");
 
-    //set the textContent of the option to be "Select a Team"
+    //set the textContent of the option to be "Select a Category"
     defaultOption.textContent = "Select a Category";
 
     //set the value of the option to an empty string ("")
@@ -127,7 +228,7 @@ function initCategoriesDropdown() {
     //get the total number of categories we have for use in the loop
     let numberOfCategories = categories.length;
 
-    //lets start looping over the teams
+    //lets start looping over the categories to build the dropdown options
     for (let i = 0; i < numberOfCategories; i++) {
 
         //lets create a new option using document.createElement
@@ -144,5 +245,33 @@ function initCategoriesDropdown() {
 
     }
 
+}
+
+function getActivitiesInCategory(activities, category) {
+
+    //start by creating an empty list to hold our matches
+    let matching = [];
+    //number of items on the menu
+    let numItems = activities.length;
+
+    //loop over the activities to find matches
+    for (let i = 0; i < numItems; i++) {
+        if (activities[i].category === category) {
+            //add that activity to our matches array
+            matching.push(activities[i]);
+        }
+    }
+    
+    //return all the matching menu items
+    return matching;
+}
+
+function hideOrShowElement(someSelector) {
+    let el = document.querySelector(someSelector);
+    if (el.style.display === "none") {
+        el.style.display = "block";
+    } else {
+        el.style.display = "none";
+    }
 }
 
