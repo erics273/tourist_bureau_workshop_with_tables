@@ -113,40 +113,7 @@ window.onload = function () {
 
 function initCategoriesDropdown() {
 
-    //get the dropdown from the HTML document and assign it to a variable
-    let theDropdown = document.querySelector("#categoriesSelect");
-
-    //create an HTML option element to serve as the defualt option for our categories select
-    let defaultOption = document.createElement("option");
-
-    //set the textContent of the option to be "Select a Category"
-    defaultOption.textContent = "Select a Category";
-
-    //set the value of the option to an empty string ("")
-    defaultOption.value = "";
-
-    //add this default option to the select
-    theDropdown.appendChild(defaultOption);
-
-    //get the total number of categories we have for use in the loop
-    let numberOfCategories = categories.length;
-
-    //lets start looping over the categories to build the dropdown options
-    for (let i = 0; i < numberOfCategories; i++) {
-
-        //lets create a new option using document.createElement
-        let newOption = document.createElement("option");
-
-        //set the textContent for our new option, what the user sees
-        newOption.textContent = categories[i];
-
-        //set the value for the option
-        newOption.value = categories[i];
-
-        //add this option to the dropdown using appendChild
-        theDropdown.appendChild(newOption);
-
-    }
+    
 
 }
 
